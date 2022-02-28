@@ -12,18 +12,26 @@ export function activate(context: vscode.ExtensionContext) {
   // The command has been defined in the package.json file
   // Now provide the implementation of the command with registerCommand
   // The commandId parameter must match the command field in package.json
-  let disposable = vscode.commands.registerCommand(
+  const cmdHelloWorldDisposable = vscode.commands.registerCommand(
     "code-remind.helloWorld",
     () => {
       // The code you place here will be executed every time your command is executed
       // Display a message box to the user
+      vscode.window.showInformationMessage("Hello World from Code Remind!");
+    }
+  );
+
+  const cmdSetReminder = vscode.commands.registerCommand(
+    "code-remind.setReminder",
+    () => {
       vscode.window.showInformationMessage(
-        "Hello World from Code Remind! aasddsd"
+        "This will set a new code reminder!"
       );
     }
   );
 
-  context.subscriptions.push(disposable);
+  context.subscriptions.push(cmdHelloWorldDisposable);
+  context.subscriptions.push(cmdSetReminder);
 }
 
 // this method is called when your extension is deactivated

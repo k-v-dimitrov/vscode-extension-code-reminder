@@ -16,7 +16,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "code-remind.setReminder",
+        "command": "code-remind.createReminder",
         "title": "Reminder: Put reminder on current line"
       },
       {

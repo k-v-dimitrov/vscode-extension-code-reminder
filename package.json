@@ -16,12 +16,12 @@
   "contributes": {
     "commands": [
       {
-        "command": "code-remind.helloWorld",
-        "title": "Hello World"
-      },
-      {
         "command": "code-remind.setReminder",
         "title": "Reminder: Put reminder on current line"
+      },
+      {
+        "command": "code-remind.getReminders",
+        "title": "Reminder: Get current reminders"
       }
     ]
   },

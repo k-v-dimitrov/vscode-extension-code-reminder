@@ -2,18 +2,17 @@ import * as vscode from "vscode";
 import { RemindersProvider } from "./services/reminders-provider";
 // Handlers
 import getReminders from "./handlers/get-reminders.handler";
+import createReminder from "./handlers/create-reminder.handler";
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "code-remind" is now active!');
 
   const remindersProviderInstance = new RemindersProvider(context);
 
-  const cmdSetReminder = vscode.commands.registerCommand(
+  const cmdCreateReminder = vscode.commands.registerCommand(
     "code-remind.createReminder",
     () => {
-      vscode.window.showInformationMessage(
-        "This will set a new code reminder!"
-      );
+      createReminder(remindersProviderInstance);
     }
   );
 
@@ -22,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
     () => getReminders(remindersProviderInstance)
   );
 
-  pushSubscriptions(context, [cmdSetReminder, cmdGetReminders]);
+  pushSubscriptions(context, [cmdCreateReminder, cmdGetReminders]);
 }
 
 function pushSubscriptions(

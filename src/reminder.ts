@@ -1,7 +1,9 @@
+import { v4 as uuid } from "uuid";
 import AuditableEntity from "./auditableEntity";
-
 export default class Reminder extends AuditableEntity {
-  constructor(private name: string) {
+  private readonly id: string;
+  constructor(private name: string, private date: Date) {
     super();
+    this.id = uuid();
   }
 }

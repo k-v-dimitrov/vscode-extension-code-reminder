@@ -1,4 +1,4 @@
-import { RemindersProvider } from "src/services/reminders-provider";
+import RemindersProvider from "src/services/reminders-provider";
 import { window } from "vscode";
 
 export default function getReminders(remindersProvider: RemindersProvider) {

@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { RemindersProvider } from "./services/reminders-provider";
+import RemindersProvider from "./services/reminders-provider";
 // Handlers
 import getReminders from "./handlers/get-reminders.handler";
 import createReminder from "./handlers/create-reminder.handler";

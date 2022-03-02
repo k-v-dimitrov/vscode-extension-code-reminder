@@ -1,7 +1,13 @@
 import * as vscode from "vscode";
-import { RemindersProvider } from "src/services/reminders-provider";
+import RemindersProvider from "src/services/reminders-provider";
 import * as path from "path";
 import * as fs from "fs";
+// import Reminder from "../reminder";
+import ReminderFactory from "../factory/reminder-factory";
+interface FormPayload {
+  name: string;
+  date: string;
+}
 
 export default function createReminder(remindersProvider: RemindersProvider) {
   const activeTextEditor = vscode.window.activeTextEditor;
@@ -22,7 +28,6 @@ export default function createReminder(remindersProvider: RemindersProvider) {
     return;
   }
 
-  console.log(activeTextEditor);
   const filename = activeTextEditor?.document.fileName;
   const reminderLine = activeTextEditor?.selection.start.line;
 
@@ -39,7 +44,19 @@ export default function createReminder(remindersProvider: RemindersProvider) {
   const htmlPath = path.join(__dirname, "views", "create-reminder.html");
   const html = fs.readFileSync(htmlPath, "utf-8");
 
-  panel.webview.html = html;
+  const cssPath = path.join(__dirname, "views", "vscode.css");
+  const css = fs.readFileSync(cssPath, "utf-8");
 
-  panel.webview.onDidReceiveMessage((message) => {});
+  const styledHTML = html.replace("/* ADD_CSS */", css);
+
+  panel.webview.html = styledHTML;
+
+  panel.webview.onDidReceiveMessage((payload: FormPayload) => {
+    console.log(payload.name);
+    const reminderFactory = new ReminderFactory();
+    const reminder = reminderFactory
+      .withName(payload.name)
+      .withReminderDate(new Date(payload.date))
+      .create();
+  });
 }

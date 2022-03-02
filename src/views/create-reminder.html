@@ -1,1 +1,58 @@
-<div>Test</div>
+<style>
+  /* ADD_CSS */
+
+  #container {
+    min-width: 350px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+</style>
+
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.1.3/jquery.datetimepicker.min.css"
+/>
+
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.1.3/jquery.datetimepicker.min.js"
+  defer
+></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<div id="container">
+  <form id="create-reminder">
+    <label>Reminder's name</label>
+    <input name="name" type="text" />
+    <label>When should I remind you?</label>
+    <input
+      id="datetimepicker"
+      name="date"
+      placeholder="Time span"
+      type="text"
+    />
+
+    <button>Save!</button>
+  </form>
+</div>
+
+<script>
+  window.addEventListener("DOMContentLoaded", () => {
+    var vscode = acquireVsCodeApi();
+    const form = document.getElementById("create-reminder");
+
+    $("#datetimepicker").datetimepicker({ theme: "dark" });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const data = new FormData(event.target);
+
+      let serializedForm = {};
+      data.forEach((value, key) => (serializedForm[key] = value));
+
+      vscode.postMessage(serializedForm);
+    });
+  });
+</script>

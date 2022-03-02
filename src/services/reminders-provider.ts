@@ -1,4 +1,4 @@
-import Reminder from "../reminder";
+import Reminder from "../models/reminder";
 import * as vscode from "vscode";
 export default class RemindersProvider {
   constructor(private readonly context: vscode.ExtensionContext) {

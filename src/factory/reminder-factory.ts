@@ -1,4 +1,4 @@
-import Reminder from "../reminder";
+import Reminder from "../models/reminder";
 
 export default class ReminderFactory {
   private name?: string;

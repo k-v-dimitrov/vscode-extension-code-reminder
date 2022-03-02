@@ -3,6 +3,8 @@ import Reminder from "../reminder";
 export default class ReminderFactory {
   private name?: string;
   private reminderDate?: Date;
+  private fileLocation?: string;
+  private line?: number;
 
   withName(name: string) {
     this.name = name;
@@ -11,6 +13,16 @@ export default class ReminderFactory {
 
   withReminderDate(date: Date) {
     this.reminderDate = date;
+    return this;
+  }
+
+  withFileLocation(fileLocation: string) {
+    this.fileLocation = fileLocation;
+    return this;
+  }
+
+  withLineNumber(line: number) {
+    this.line = line;
     return this;
   }
 
@@ -23,6 +35,19 @@ export default class ReminderFactory {
       throw new Error("Cannot create Reminder without date");
     }
 
-    return new Reminder(this.name, this.reminderDate);
+    if (!this.fileLocation) {
+      throw new Error("Cannot create Reminder without filename");
+    }
+
+    if (typeof this.line === "undefined") {
+      throw new Error("Cannot create Reminder without selected line");
+    }
+
+    return new Reminder(
+      this.name,
+      this.reminderDate,
+      this.line,
+      this.fileLocation
+    );
   }
 }

@@ -1,4 +1,4 @@
-import Reminder from "src/reminder";
+import Reminder from "../reminder";
 import * as vscode from "vscode";
 export default class RemindersProvider {
   constructor(private readonly context: vscode.ExtensionContext) {
@@ -11,5 +11,9 @@ export default class RemindersProvider {
     });
   }
 
-  setReminder(reminder: Reminder) {}
+  saveReminder(reminder: Reminder) {
+    console.log(JSON.stringify(reminder, null, 4));
+
+    this.context.globalState.update(reminder.id, reminder);
+  }
 }

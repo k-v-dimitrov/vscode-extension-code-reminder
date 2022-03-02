@@ -1,9 +1,9 @@
 import * as vscode from "vscode";
-import RemindersProvider from "src/services/reminders-provider";
+import RemindersProvider from "../services/reminders-provider";
 import * as path from "path";
 import * as fs from "fs";
-// import Reminder from "../reminder";
 import ReminderFactory from "../factory/reminder-factory";
+
 interface FormPayload {
   name: string;
   date: string;
@@ -57,6 +57,11 @@ export default function createReminder(remindersProvider: RemindersProvider) {
     const reminder = reminderFactory
       .withName(payload.name)
       .withReminderDate(new Date(payload.date))
+      .withFileLocation(filename)
+      .withLineNumber(reminderLine)
       .create();
+
+    remindersProvider.saveReminder(reminder);
+    panel.dispose();
   });
 }

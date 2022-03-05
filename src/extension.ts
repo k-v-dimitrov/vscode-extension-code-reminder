@@ -3,9 +3,12 @@ import RemindersProvider from "./services/reminders-provider";
 // Handlers
 import getReminders from "./handlers/get-reminders.handler";
 import createReminder from "./handlers/create-reminder.handler";
+import { RemindersTreeDataProvider } from "./services/reminders-tree-data-provider";
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "code-remind" is now active!');
+
+  wipeGlobalState(context);
 
   const remindersProviderInstance = new RemindersProvider(context);
 
@@ -21,6 +24,24 @@ export function activate(context: vscode.ExtensionContext) {
     () => getReminders(remindersProviderInstance)
   );
 
+  // Reminders tree view
+
+  const remindersTreeDataProvider = new RemindersTreeDataProvider(
+    remindersProviderInstance
+  );
+
+  vscode.window.createTreeView("reminders", {
+    treeDataProvider: remindersTreeDataProvider,
+  });
+
+  // Reminders tree view commands
+  const cmdRefreshReminderTreeView = vscode.commands.registerCommand(
+    "code-remind.refreshRemindersTreeView",
+    () => {
+      remindersTreeDataProvider.refresh();
+    }
+  );
+
   pushSubscriptions(context, [cmdCreateReminder, cmdGetReminders]);
 }
 
@@ -29,6 +50,24 @@ function pushSubscriptions(
   subscriptions: Array<vscode.Disposable>
 ) {
   context.subscriptions.push(...subscriptions);
+}
+
+/**
+ *
+ * @param context
+ *
+ * This is a utility function for dev purposes only.
+ * It wipes the whole global state of the extension
+ *
+ */
+function wipeGlobalState(context: vscode.ExtensionContext) {
+  console.log(context.globalState.keys());
+
+  context.globalState.keys().forEach((key) => {
+    context.globalState.update(key, undefined);
+  });
+
+  console.log("GLOBAL STATE WIPED");
 }
 
 export function deactivate() {}

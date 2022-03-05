@@ -22,6 +22,10 @@
       {
         "command": "code-remind.getReminders",
         "title": "Reminder: Get current reminders"
+      },
+      {
+        "command": "code-remind.refreshRemindersTreeView",
+        "title": "Reminder: Refresh tree reminders view"
       }
     ],
     "menus": {
@@ -29,6 +33,15 @@
         {
           "command": "code-remind.createReminder",
           "group": "reminders"
+        }
+      ]
+    },
+    "views": {
+      "explorer": [
+        {
+          "id": "reminders",
+          "name": "Reminders",
+          "icon": "/src/assets/pin.png"
         }
       ]
     }

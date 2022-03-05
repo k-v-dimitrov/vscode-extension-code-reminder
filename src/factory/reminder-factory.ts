@@ -1,29 +1,53 @@
 import Reminder from "../models/reminder";
+import { IReminder } from "../models/reminder";
 
-export default class ReminderFactory {
-  private name?: string;
-  private reminderDate?: Date;
-  private fileLocation?: string;
-  private line?: number;
-
+interface ReminderFactory extends IReminder {}
+class ReminderFactory {
   withName(name: string) {
     this.name = name;
     return this;
   }
 
   withReminderDate(date: Date) {
-    this.reminderDate = date;
+    this.date = date;
     return this;
   }
 
   withFileLocation(fileLocation: string) {
-    this.fileLocation = fileLocation;
+    this.reminderFileLocation = fileLocation;
     return this;
   }
 
   withLineNumber(line: number) {
-    this.line = line;
+    this.reminderLine = line;
     return this;
+  }
+
+  fromJSON(json: string): ReminderFactory {
+    const parsedJSON = JSON.parse(json);
+    return Object.assign(this, { ...parsedJSON });
+  }
+
+  fromObject(serializedObject: unknown) {
+    try {
+      if (serializedObject instanceof Reminder) {
+        const reminderObject = serializedObject as Reminder;
+        return Object.assign(this, reminderObject);
+      }
+
+      throw new Error(
+        "fromObject() in Reminder Factory received object that was not an instance of Reminder object"
+      );
+    } catch (error) {
+      console.error(error);
+
+      return Object.assign(this, {
+        date: new Date(),
+        name: "CORRUPTED",
+        reminderFileLocation: "CORRUPTED",
+        reminderLine: -1,
+      });
+    }
   }
 
   create() {
@@ -31,23 +55,25 @@ export default class ReminderFactory {
       throw new Error("Cannot create Reminder without name");
     }
 
-    if (!this.reminderDate) {
+    if (!this.date) {
       throw new Error("Cannot create Reminder without date");
     }
 
-    if (!this.fileLocation) {
+    if (!this.reminderFileLocation) {
       throw new Error("Cannot create Reminder without filename");
     }
 
-    if (typeof this.line === "undefined") {
+    if (typeof this.reminderLine === "undefined") {
       throw new Error("Cannot create Reminder without selected line");
     }
 
-    return new Reminder(
-      this.name,
-      this.reminderDate,
-      this.line,
-      this.fileLocation
-    );
+    return new Reminder({
+      name: this.name,
+      date: this.date,
+      reminderFileLocation: this.reminderFileLocation,
+      reminderLine: this.reminderLine,
+    });
   }
 }
+
+export default ReminderFactory;

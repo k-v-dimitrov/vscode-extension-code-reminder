@@ -1,13 +1,19 @@
 import Reminder from "../models/reminder";
 import * as vscode from "vscode";
+import ReminderFactory from "../factory/reminder-factory";
 export default class RemindersProvider {
+  private reminderFactoryInstance;
+
   constructor(private readonly context: vscode.ExtensionContext) {
-    context.globalState.keys();
+    this.reminderFactoryInstance = new ReminderFactory();
   }
 
   get reminders() {
     return this.context.globalState.keys().map((key) => {
-      return this.context.globalState.get(key);
+      const reminderPropsObject = this.context.globalState.get(key);
+      return this.reminderFactoryInstance
+        .fromObject(reminderPropsObject)
+        .create();
     });
   }
 

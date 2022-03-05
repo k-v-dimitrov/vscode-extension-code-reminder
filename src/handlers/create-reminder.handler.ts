@@ -52,7 +52,6 @@ export default function createReminder(remindersProvider: RemindersProvider) {
   panel.webview.html = styledHTML;
 
   panel.webview.onDidReceiveMessage((payload: FormPayload) => {
-    console.log(payload.name);
     const reminderFactory = new ReminderFactory();
     const reminder = reminderFactory
       .withName(payload.name)
@@ -60,6 +59,8 @@ export default function createReminder(remindersProvider: RemindersProvider) {
       .withFileLocation(filename)
       .withLineNumber(reminderLine)
       .create();
+
+    console.log(reminder);
 
     remindersProvider.saveReminder(reminder);
     panel.dispose();

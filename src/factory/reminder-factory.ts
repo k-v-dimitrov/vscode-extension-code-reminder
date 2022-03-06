@@ -29,8 +29,6 @@ class ReminderFactory {
   }
 
   fromObject(serializableObject: Reminder) {
-    console.log(serializableObject);
-
     try {
       if (Reminder.isReminder(serializableObject)) {
         const reminderObject = serializableObject as Reminder;
@@ -42,8 +40,6 @@ class ReminderFactory {
       );
     } catch (error) {
       console.error(error);
-
-      console.log("WRITING CORRUPTED OBJECT");
 
       return Object.assign(this, {
         date: new Date(),

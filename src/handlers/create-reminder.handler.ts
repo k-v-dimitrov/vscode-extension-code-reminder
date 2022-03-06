@@ -9,7 +9,10 @@ interface FormPayload {
   date: string;
 }
 
-export default function createReminder(remindersProvider: RemindersProvider) {
+export default function createReminder(
+  remindersProvider: RemindersProvider,
+  callback: () => void
+) {
   const activeTextEditor = vscode.window.activeTextEditor;
 
   if (!activeTextEditor) {
@@ -60,9 +63,8 @@ export default function createReminder(remindersProvider: RemindersProvider) {
       .withLineNumber(reminderLine)
       .create();
 
-    console.log(reminder);
-
     remindersProvider.saveReminder(reminder);
     panel.dispose();
+    callback();
   });
 }

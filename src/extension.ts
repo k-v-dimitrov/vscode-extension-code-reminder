@@ -21,13 +21,17 @@ export function activate(context: vscode.ExtensionContext) {
   const cmdCreateReminder = vscode.commands.registerCommand(
     "code-remind.createReminder",
     () => {
-      createReminder(remindersProviderInstance);
+      createReminder(remindersProviderInstance, () => {
+        remindersTreeDataProvider.refresh();
+      });
     }
   );
 
   const cmdGetReminders = vscode.commands.registerCommand(
     "code-remind.getReminders",
-    () => getReminders(remindersProviderInstance)
+    () => {
+      getReminders(remindersProviderInstance);
+    }
   );
 
   // Define Reminders tree view commands
@@ -67,8 +71,6 @@ function pushSubscriptions(
  *
  */
 function wipeGlobalState(context: vscode.ExtensionContext) {
-  console.log(context.globalState.keys());
-
   context.globalState.keys().forEach((key) => {
     context.globalState.update(key, undefined);
   });

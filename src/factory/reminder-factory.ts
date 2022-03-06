@@ -28,10 +28,12 @@ class ReminderFactory {
     return Object.assign(this, { ...parsedJSON });
   }
 
-  fromObject(serializedObject: unknown) {
+  fromObject(serializableObject: Reminder) {
+    console.log(serializableObject);
+
     try {
-      if (serializedObject instanceof Reminder) {
-        const reminderObject = serializedObject as Reminder;
+      if (Reminder.isReminder(serializableObject)) {
+        const reminderObject = serializableObject as Reminder;
         return Object.assign(this, reminderObject);
       }
 
@@ -40,6 +42,8 @@ class ReminderFactory {
       );
     } catch (error) {
       console.error(error);
+
+      console.log("WRITING CORRUPTED OBJECT");
 
       return Object.assign(this, {
         date: new Date(),

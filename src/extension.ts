@@ -8,10 +8,16 @@ import { RemindersTreeDataProvider } from "./services/reminders-tree-data-provid
 export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "code-remind" is now active!');
 
+  // Wipe global state, dev purpose
   wipeGlobalState(context);
 
+  // Init
   const remindersProviderInstance = new RemindersProvider(context);
+  const remindersTreeDataProvider = new RemindersTreeDataProvider(
+    remindersProviderInstance
+  );
 
+  // Define commands
   const cmdCreateReminder = vscode.commands.registerCommand(
     "code-remind.createReminder",
     () => {
@@ -24,17 +30,7 @@ export function activate(context: vscode.ExtensionContext) {
     () => getReminders(remindersProviderInstance)
   );
 
-  // Reminders tree view
-
-  const remindersTreeDataProvider = new RemindersTreeDataProvider(
-    remindersProviderInstance
-  );
-
-  vscode.window.createTreeView("reminders", {
-    treeDataProvider: remindersTreeDataProvider,
-  });
-
-  // Reminders tree view commands
+  // Define Reminders tree view commands
   const cmdRefreshReminderTreeView = vscode.commands.registerCommand(
     "code-remind.refreshRemindersTreeView",
     () => {
@@ -42,7 +38,17 @@ export function activate(context: vscode.ExtensionContext) {
     }
   );
 
-  pushSubscriptions(context, [cmdCreateReminder, cmdGetReminders]);
+  // Create views
+  vscode.window.createTreeView("reminders", {
+    treeDataProvider: remindersTreeDataProvider,
+  });
+
+  // Register commands
+  pushSubscriptions(context, [
+    cmdCreateReminder,
+    cmdGetReminders,
+    cmdRefreshReminderTreeView,
+  ]);
 }
 
 function pushSubscriptions(

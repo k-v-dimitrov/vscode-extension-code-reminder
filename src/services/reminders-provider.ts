@@ -10,16 +10,17 @@ export default class RemindersProvider {
 
   get reminders() {
     return this.context.globalState.keys().map((key) => {
-      const reminderPropsObject = this.context.globalState.get(key);
+      const reminderPropsAsString = this.context.globalState.get<string>(key)!;
+      const reminderPropsParsedObject = JSON.parse(reminderPropsAsString);
       return this.reminderFactoryInstance
-        .fromObject(reminderPropsObject)
+        .fromObject(reminderPropsParsedObject)
         .create();
     });
   }
 
   saveReminder(reminder: Reminder) {
-    console.log(JSON.stringify(reminder, null, 4));
+    const reminderToJSONString = JSON.stringify(reminder);
 
-    this.context.globalState.update(reminder.id, reminder);
+    this.context.globalState.update(reminder.id, reminderToJSONString);
   }
 }

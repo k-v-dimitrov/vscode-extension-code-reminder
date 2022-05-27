@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import RemindersProvider from "./services/reminders-provider";
+import { RemindersProvider } from "./services/reminders-provider";
 // Handlers
 import getReminders from "./handlers/get-reminders.handler";
 import createReminder from "./handlers/create-reminder.handler";
@@ -13,10 +13,9 @@ export function activate(context: vscode.ExtensionContext) {
   wipeGlobalState(context);
 
   // Init
-  const remindersProviderInstance = new RemindersProvider(context);
-  const remindersTreeDataProvider = new RemindersTreeDataProvider(
-    remindersProviderInstance
-  );
+  const remindersProviderInstance = RemindersProvider.getInstance(context);
+
+  const remindersTreeDataProvider = new RemindersTreeDataProvider();
 
   const remindersCronJob = new RemindersCronJobFactory()
     .withRemindersProvider(remindersProviderInstance)
@@ -29,7 +28,7 @@ export function activate(context: vscode.ExtensionContext) {
   const cmdCreateReminder = vscode.commands.registerCommand(
     "code-remind.createReminder",
     () => {
-      createReminder(remindersProviderInstance, () => {
+      createReminder(() => {
         remindersTreeDataProvider.refresh();
       });
     }
@@ -38,7 +37,7 @@ export function activate(context: vscode.ExtensionContext) {
   const cmdGetReminders = vscode.commands.registerCommand(
     "code-remind.getReminders",
     () => {
-      getReminders(remindersProviderInstance);
+      getReminders();
     }
   );
 

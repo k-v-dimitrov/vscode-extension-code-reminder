@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import RemindersProvider from "../services/reminders-provider";
+import { RemindersProvider } from "../services/reminders-provider";
 import * as path from "path";
 import * as fs from "fs";
 import ReminderFactory from "../factory/reminder-factory";
@@ -9,10 +9,7 @@ interface FormPayload {
   date: string;
 }
 
-export default function createReminder(
-  remindersProvider: RemindersProvider,
-  callback: () => void
-) {
+export default function createReminder(callback: () => void) {
   const activeTextEditor = vscode.window.activeTextEditor;
 
   if (!activeTextEditor) {
@@ -63,7 +60,7 @@ export default function createReminder(
       .withLineNumber(reminderLine)
       .create();
 
-    remindersProvider.saveReminder(reminder);
+    RemindersProvider.getInstance().saveReminder(reminder);
     panel.dispose();
     callback();
   });

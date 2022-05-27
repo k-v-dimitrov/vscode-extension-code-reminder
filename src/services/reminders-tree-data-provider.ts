@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
-import RemindersProvider from "../services/reminders-provider";
+import { RemindersProvider } from "../services/reminders-provider";
 import Reminder, { IReminder } from "models/reminder";
 import {
   DetailItemGenerator,
@@ -23,7 +23,7 @@ export class RemindersTreeDataProvider
 
   private detailItemGenerator: DetailItemGenerator;
 
-  constructor(private remindersProvider: RemindersProvider) {
+  constructor() {
     this.detailItemGenerator = DetailItemGenerator.getInstance();
     this.registerViewGenerators();
   }
@@ -60,7 +60,7 @@ export class RemindersTreeDataProvider
     element?: ReminderTreeItem
   ): ReminderTreeItem[] | ReminderDetailTreeItem[] {
     if (!element) {
-      const reminders = this.remindersProvider.reminders;
+      const reminders = RemindersProvider.getInstance().reminders;
       return this.generateRemindersTreeItems(reminders);
     } else {
       const reminder = element.details;

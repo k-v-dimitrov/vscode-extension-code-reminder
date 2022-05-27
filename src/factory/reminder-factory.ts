@@ -72,6 +72,7 @@ class ReminderFactory {
       date: this.date,
       reminderFileLocation: this.reminderFileLocation,
       reminderLine: this.reminderLine,
+      completed: false,
     });
   }
 }

@@ -7,9 +7,10 @@ export interface IReminder {
   date: Date;
   reminderLine: number;
   reminderFileLocation: string;
+  completed?: boolean;
 }
 
-const IReminderValidator = Joi.object({
+const reminderValidator = Joi.object({
   id: Joi.string().required(),
   name: Joi.string().required(),
   date: Joi.date().required(),
@@ -26,7 +27,7 @@ class Reminder extends AuditableEntity {
   }
 
   static isReminder(obj: any): obj is Reminder {
-    return obj && IReminderValidator.validate(obj);
+    return obj && reminderValidator.validate(obj);
   }
 }
 

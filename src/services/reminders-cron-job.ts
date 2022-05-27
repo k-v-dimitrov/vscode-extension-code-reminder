@@ -1,80 +1,51 @@
 import * as vscode from "vscode";
 import * as cron from "node-cron";
-import RemindersProvider from "./reminders-provider";
+import { RemindersProvider } from "./reminders-provider";
 
-interface IRemindersCronJob {
+export interface IRemindersCronJob {
   context: vscode.ExtensionContext;
-  remindersProvider: RemindersProvider;
   pattern: string;
 }
-export interface RemindersCronJobFactory extends IRemindersCronJob {}
-export class RemindersCronJobFactory {
-  constructor() {
-    this.pattern = "* * * * * *";
-  }
 
-  withVscodeContext(context: vscode.ExtensionContext) {
-    this.context = context;
-    return this;
-  }
-
-  withRemindersProvider(remindersProvider: RemindersProvider) {
-    this.remindersProvider = remindersProvider;
-    return this;
-  }
-
-  withCustomCronPattern(pattern: string) {
-    this.pattern = pattern;
-    return this;
-  }
-
-  create() {
-    return new RemindersCronJob({
-      context: this.context,
-      pattern: this.pattern,
-      remindersProvider: this.remindersProvider,
-    });
-  }
-}
-
-interface RemindersCronJob extends IRemindersCronJob {}
-class RemindersCronJob {
+export interface RemindersCronJob extends IRemindersCronJob {}
+export class RemindersCronJob {
   /**
    *
    */
   constructor(props: IRemindersCronJob) {
-    const { context, pattern, remindersProvider } = props;
+    const { context, pattern } = props;
     this.context = context;
     this.pattern = pattern;
-    this.remindersProvider = remindersProvider;
+    this.checkReminders = this.checkReminders.bind(this);
   }
 
   start() {
-    cron.schedule(this.pattern, this.checkReminders);
+    const checkRemindersTask = cron.schedule(this.pattern, this.checkReminders);
+    checkRemindersTask.start();
   }
 
   private checkReminders() {
-    this.remindersProvider.reminders.map((reminder) => {
-      console.log("reminder", reminder.date);
-      if (this.shouldFireReminder(reminder.date)) {
-        vscode.window.showInformationMessage(
-          "REMINDER REMINDER REMINDER",
-          reminder.name
-        );
-        vscode.window.showInformationMessage(
-          "REMINDER REMINDER REMINDER",
-          reminder.name
-        );
-        vscode.window.showInformationMessage(
-          "REMINDER REMINDER REMINDER",
-          reminder.name
-        );
+    RemindersProvider.getInstance().reminders.map((reminder) => {
+      // TODO: fix new Date(reminder.date);
+      if (this.shouldFireReminder(new Date(reminder.date))) {
+        // this.showVSCodeInformationMessage(
+        //   `Reminder: ${reminder.name}`,
+        //   "Go To File"
+        // );
       }
     });
   }
 
+  // private showVSCodeInformationMessage = (
+  //   content: string,
+  //   okBtnText: string
+  // ) => {
+  //   vscode.window.showInformationMessage(content, okBtnText);
+  // };
+
   private shouldFireReminder(reminderDate: Date) {
-    console.log(Date.now().valueOf() - reminderDate.valueOf() >= 0);
+    console.log("Diff: ", Date.now().valueOf(), reminderDate.valueOf());
+
     return Date.now().valueOf() - reminderDate.valueOf() >= 0;
   }
 }

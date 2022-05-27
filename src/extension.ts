@@ -4,25 +4,14 @@ import { RemindersProvider } from "./services/reminders-provider";
 import getReminders from "./handlers/get-reminders.handler";
 import createReminder from "./handlers/create-reminder.handler";
 import { RemindersTreeDataProvider } from "./services/reminders-tree-data-provider";
-import { RemindersCronJobFactory } from "./services/reminders-cron-job";
+import { RemindersCronJobFactory } from "./factory/reminder-cron-job-factory";
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "code-remind" is now active!');
-
-  // Wipe global state, dev purpose
-  wipeGlobalState(context);
-
-  // Init
-  const remindersProviderInstance = RemindersProvider.getInstance(context);
+  wipeGlobalState(context); // Wipe global state, dev purpose
+  startCronJob(context);
 
   const remindersTreeDataProvider = new RemindersTreeDataProvider();
-
-  const remindersCronJob = new RemindersCronJobFactory()
-    .withRemindersProvider(remindersProviderInstance)
-    .withVscodeContext(context)
-    .create();
-
-  remindersCronJob.start();
 
   // Define commands
   const cmdCreateReminder = vscode.commands.registerCommand(
@@ -67,6 +56,14 @@ function pushSubscriptions(
   subscriptions: Array<vscode.Disposable>
 ) {
   context.subscriptions.push(...subscriptions);
+}
+
+function startCronJob(context: vscode.ExtensionContext) {
+  const remindersCronJob = new RemindersCronJobFactory()
+    .withVscodeContext(context)
+    .create();
+
+  remindersCronJob.start();
 }
 
 /**

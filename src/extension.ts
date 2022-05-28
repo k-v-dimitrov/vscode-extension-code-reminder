@@ -11,6 +11,8 @@ export function activate(context: vscode.ExtensionContext) {
   wipeGlobalState(context); // Wipe global state, dev purpose
   startCronJob(context);
 
+  RemindersProvider.init(context);
+
   const remindersTreeDataProvider = new RemindersTreeDataProvider();
 
   // Define commands

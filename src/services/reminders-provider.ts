@@ -10,23 +10,17 @@ export class RemindersProvider {
     this.reminderFactoryInstance = new ReminderFactory();
   }
 
-  public static getInstance(
-    context?: vscode.ExtensionContext
-  ): RemindersProvider {
-    if (!this.instance) {
-      this.createInstance(context);
-    }
-
-    return this.instance;
-  }
-
-  private static createInstance(context?: vscode.ExtensionContext) {
+  public static init(context?: vscode.ExtensionContext) {
     if (!context) {
       throw new Error(
         "Application context instance was not provided to RemindersProvider"
       );
     }
     RemindersProvider.instance = new RemindersProvider(context);
+  }
+
+  public static getInstance(): RemindersProvider {
+    return this.instance;
   }
 
   get reminders() {

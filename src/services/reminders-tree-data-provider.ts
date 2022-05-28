@@ -64,7 +64,7 @@ export class RemindersTreeDataProvider
       return this.generateRemindersTreeItems(reminders);
     } else {
       const reminder = element.details;
-      return this.generateReminderDetailsTreeItems(reminder);
+      return reminder && this.generateReminderDetailsTreeItems(reminder);
     }
   }
 
@@ -105,7 +105,7 @@ export class RemindersTreeDataProvider
         currentDetails
       ) => {
         const castedDetailType = currentDetails as keyof Reminder;
-        const detailData = reminder[castedDetailType].toString();
+        const detailData = reminder[castedDetailType]!.toString();
 
         const detailItem = this.detailItemGenerator.generateDetailItem(
           castedDetailType,

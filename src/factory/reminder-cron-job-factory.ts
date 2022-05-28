@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 
-import { RemindersCronJob } from "services/reminders-cron-job";
-import type { IRemindersCronJob } from "services/reminders-cron-job";
+import { RemindersCronJob } from "../services/reminders-cron-job";
+import type { IRemindersCronJob } from "../services/reminders-cron-job";
 
 export interface RemindersCronJobFactory extends IRemindersCronJob {}
 export class RemindersCronJobFactory {

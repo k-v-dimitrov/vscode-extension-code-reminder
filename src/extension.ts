@@ -8,11 +8,10 @@ import { RemindersCronJobFactory } from "./factory/reminder-cron-job-factory";
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "code-remind" is now active!');
+
   wipeGlobalState(context); // Wipe global state, dev purpose
-  startCronJob(context);
-
   RemindersProvider.init(context);
-
+  startCronJob(context);
   const remindersTreeDataProvider = new RemindersTreeDataProvider();
 
   // Define commands

@@ -9,7 +9,7 @@ class ReminderFactory {
   }
 
   withReminderDate(date: Date) {
-    this.date = date;
+    this.date = new Date(date);
     return this;
   }
 
@@ -32,7 +32,10 @@ class ReminderFactory {
     try {
       if (Reminder.isReminder(serializableObject)) {
         const reminderObject = serializableObject as Reminder;
-        return Object.assign(this, reminderObject);
+        return Object.assign(this, {
+          ...reminderObject,
+          date: new Date(reminderObject.date),
+        });
       }
 
       throw new Error(

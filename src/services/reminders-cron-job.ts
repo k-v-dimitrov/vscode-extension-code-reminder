@@ -26,26 +26,28 @@ export class RemindersCronJob {
 
   private checkReminders() {
     RemindersProvider.getInstance().reminders.map((reminder) => {
-      // TODO: fix new Date(reminder.date);
-      if (this.shouldFireReminder(new Date(reminder.date))) {
-        // this.showVSCodeInformationMessage(
-        //   `Reminder: ${reminder.name}`,
-        //   "Go To File"
-        // );
+      if (this.shouldFireReminder(reminder.date)) {
+        console.log("should fire already");
       }
     });
   }
 
-  // private showVSCodeInformationMessage = (
-  //   content: string,
-  //   okBtnText: string
-  // ) => {
-  //   vscode.window.showInformationMessage(content, okBtnText);
-  // };
-
   private shouldFireReminder(reminderDate: Date) {
-    console.log("Diff: ", Date.now().valueOf(), reminderDate.valueOf());
-
-    return Date.now().valueOf() - reminderDate.valueOf() >= 0;
+    console.log();
+    return Date.now() - reminderDate.getTime() >= 0;
   }
 }
+
+// Shows the VSCODE information message
+// this.showVSCodeInformationMessage(
+//   `Reminder: ${reminder.name}`,
+//   "Go To File"
+// );
+
+// Helper function
+// private showVSCodeInformationMessage = (
+//   content: string,
+//   okBtnText: string
+// ) => {
+//   vscode.window.showInformationMessage(content, okBtnText);
+// };

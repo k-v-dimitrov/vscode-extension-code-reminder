@@ -33,6 +33,10 @@ export class RemindersProvider {
     });
   }
 
+  getReminder(id: string) {
+    return this.reminders.find((reminder) => reminder.id === id);
+  }
+
   saveReminder(reminder: Reminder) {
     const reminderToJSONString = JSON.stringify(reminder);
     this.context.globalState.update(reminder.id, reminderToJSONString);

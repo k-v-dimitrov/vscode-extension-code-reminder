@@ -32,7 +32,7 @@ export class RemindersCronJob {
       if (this.shouldFireReminder(reminder)) {
         new GoToFileNotification(
           `🕖  Reminder:`,
-          `${reminder.name}`,
+          reminder,
           reminder.reminderFileLocation
         );
 

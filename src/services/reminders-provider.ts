@@ -4,11 +4,8 @@ import ReminderFactory from "../factory/reminder-factory";
 
 export class RemindersProvider {
   private static instance: RemindersProvider;
-  private reminderFactoryInstance: ReminderFactory;
 
-  private constructor(private readonly context: vscode.ExtensionContext) {
-    this.reminderFactoryInstance = new ReminderFactory();
-  }
+  private constructor(private readonly context: vscode.ExtensionContext) {}
 
   public static init(context?: vscode.ExtensionContext) {
     if (!context) {
@@ -27,7 +24,7 @@ export class RemindersProvider {
     return this.context.globalState.keys().map((key) => {
       const reminderPropsAsString = this.context.globalState.get<string>(key)!;
       const reminderPropsParsedObject = JSON.parse(reminderPropsAsString);
-      return this.reminderFactoryInstance
+      return new ReminderFactory()
         .fromObject(reminderPropsParsedObject)
         .create();
     });

@@ -1,6 +1,8 @@
 import * as vscode from "vscode";
 import * as cron from "node-cron";
 import { RemindersProvider } from "./reminders-provider";
+import updateReminder from "../handlers/update-reminder.handler";
+import Reminder from "models/reminder";
 
 export interface IRemindersCronJob {
   context: vscode.ExtensionContext;
@@ -26,23 +28,36 @@ export class RemindersCronJob {
 
   private checkReminders() {
     RemindersProvider.getInstance().reminders.map((reminder) => {
-      if (this.shouldFireReminder(reminder.date)) {
-        this.showVSCodeInformationMessage(
+      if (this.shouldFireReminder(reminder)) {
+        showVSCodeInformationMessage(
           `Reminder: ${reminder.name}`,
           "Go To File"
         );
+
+        this.markReminderAsSeen(reminder.id);
       }
     });
   }
 
-  private shouldFireReminder(reminderDate: Date) {
-    return Date.now() - reminderDate.getTime() >= 0;
+  private markReminderAsSeen(reminderId: string) {
+    const reminder = RemindersProvider.getInstance().getReminder(reminderId);
+
+    if (!reminder) {
+      throw new Error(`could not find reminder with id: ${reminderId}`);
+    }
+
+    updateReminder(reminder.id, { wasNotificationShown: true });
   }
 
-  private showVSCodeInformationMessage = (
-    content: string,
-    okBtnText: string
-  ) => {
-    vscode.window.showInformationMessage(content, okBtnText);
-  };
+  private shouldFireReminder(reminder: Reminder): boolean {
+    if (reminder.wasNotificationShown) {
+      return false;
+    }
+
+    return Date.now() - reminder.date.getTime() >= 0;
+  }
+}
+
+function showVSCodeInformationMessage(content: string, okBtnText: string) {
+  vscode.window.showInformationMessage(content, okBtnText);
 }

@@ -1,4 +1,4 @@
-import { RemindersProvider } from "services/reminders-provider";
+import { RemindersProvider } from "../services/reminders-provider";
 import Reminder from "../models/reminder";
 
 export default function updateReminder(

@@ -5,6 +5,8 @@ import updateReminder from "../handlers/update-reminder.handler";
 import Reminder from "../models/reminder";
 import { GoToFileNotification } from "../models/notification";
 
+import CONFIG from "../config/config";
+
 export interface IRemindersCronJob {
   context: vscode.ExtensionContext;
   pattern: string;
@@ -30,11 +32,21 @@ export class RemindersCronJob {
   private checkReminders() {
     RemindersProvider.getInstance().reminders.map((reminder) => {
       if (this.shouldFireReminder(reminder)) {
-        new GoToFileNotification(
-          `🕖  Reminder:`,
-          reminder,
-          reminder.reminderFileLocation
-        );
+        if (CONFIG.REMINDER_DELAY_NOTIFICATION) {
+          setTimeout(() => {
+            new GoToFileNotification(
+              `🕖  Reminder:`,
+              reminder,
+              reminder.reminderFileLocation
+            );
+          }, 1000);
+        } else {
+          new GoToFileNotification(
+            `🕖  Reminder:`,
+            reminder,
+            reminder.reminderFileLocation
+          );
+        }
 
         this.markReminderAsSeen(reminder.id);
       }

@@ -6,6 +6,8 @@ abstract class Notification {
   async showReminderCTA(title: string, content: string, choiceMap: string[]) {
     const reminderText = `${title} ${content}`;
 
+    vscode.window.showInformationMessage(reminderText);
+
     const choice = await Promise.race([
       vscode.window.showQuickPick(choiceMap, {
         title: reminderText,

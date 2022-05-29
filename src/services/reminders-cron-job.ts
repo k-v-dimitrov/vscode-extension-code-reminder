@@ -27,27 +27,22 @@ export class RemindersCronJob {
   private checkReminders() {
     RemindersProvider.getInstance().reminders.map((reminder) => {
       if (this.shouldFireReminder(reminder.date)) {
-        console.log("should fire already");
+        this.showVSCodeInformationMessage(
+          `Reminder: ${reminder.name}`,
+          "Go To File"
+        );
       }
     });
   }
 
   private shouldFireReminder(reminderDate: Date) {
-    console.log();
     return Date.now() - reminderDate.getTime() >= 0;
   }
+
+  private showVSCodeInformationMessage = (
+    content: string,
+    okBtnText: string
+  ) => {
+    vscode.window.showInformationMessage(content, okBtnText);
+  };
 }
-
-// Shows the VSCODE information message
-// this.showVSCodeInformationMessage(
-//   `Reminder: ${reminder.name}`,
-//   "Go To File"
-// );
-
-// Helper function
-// private showVSCodeInformationMessage = (
-//   content: string,
-//   okBtnText: string
-// ) => {
-//   vscode.window.showInformationMessage(content, okBtnText);
-// };

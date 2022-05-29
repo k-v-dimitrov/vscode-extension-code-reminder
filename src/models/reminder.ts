@@ -1,5 +1,4 @@
 import { v4 as uuid } from "uuid";
-import AuditableEntity from "./auditableEntity";
 import * as Joi from "joi";
 export interface IReminder {
   id: string;
@@ -8,6 +7,7 @@ export interface IReminder {
   reminderLine: number;
   reminderFileLocation: string;
   completed?: boolean;
+  createdAt?: Date;
 }
 
 const reminderValidator = Joi.object({
@@ -19,10 +19,11 @@ const reminderValidator = Joi.object({
 });
 
 interface Reminder extends IReminder {}
-class Reminder extends AuditableEntity {
+class Reminder {
   constructor(props: IReminder) {
-    super();
-    console.log(props);
+    if (!props.createdAt) {
+      props.createdAt = new Date(Date.now());
+    }
 
     if (props.id === "") {
       props.id = uuid();

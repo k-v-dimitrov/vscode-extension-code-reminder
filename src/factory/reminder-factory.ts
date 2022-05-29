@@ -77,6 +77,7 @@ class ReminderFactory {
       reminderFileLocation: this.reminderFileLocation,
       reminderLine: this.reminderLine,
       completed: false,
+      createdAt: this.createdAt,
     });
   }
 }

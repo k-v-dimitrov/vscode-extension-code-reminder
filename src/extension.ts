@@ -13,8 +13,6 @@ import CONFIG from "./config/config";
 export const globalEvents = new EventEmitter();
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log('Congratulations, your extension "code-remind" is now active!');
-
   if (CONFIG.REMINDER_WIPE_GLOBAl_STATE) {
     wipeGlobalState(context); // Wipe global state, dev purpose
   }
@@ -94,8 +92,6 @@ function wipeGlobalState(context: vscode.ExtensionContext) {
   context.globalState.keys().forEach((key) => {
     context.globalState.update(key, undefined);
   });
-
-  console.log("GLOBAL STATE WIPED");
 }
 
 export function deactivate() {}

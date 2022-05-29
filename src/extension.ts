@@ -1,10 +1,13 @@
 import * as vscode from "vscode";
+import { EventEmitter } from "stream";
 import { RemindersProvider } from "./services/reminders-provider";
 // Handlers
 import getReminders from "./handlers/get-reminders.handler";
 import createReminder from "./handlers/create-reminder.handler";
 import { RemindersTreeDataProvider } from "./services/reminders-tree-data-provider";
 import { RemindersCronJobFactory } from "./factory/reminder-cron-job-factory";
+
+export const globalEvents = new EventEmitter();
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "code-remind" is now active!');
@@ -50,6 +53,12 @@ export function activate(context: vscode.ExtensionContext) {
     cmdGetReminders,
     cmdRefreshReminderTreeView,
   ]);
+
+  // Listen to events
+
+  globalEvents.on("refresh-tree-data", () => {
+    remindersTreeDataProvider.refresh();
+  });
 }
 
 function pushSubscriptions(

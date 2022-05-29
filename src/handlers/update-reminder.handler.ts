@@ -1,6 +1,8 @@
 import { RemindersProvider } from "../services/reminders-provider";
 import Reminder from "../models/reminder";
 
+import { globalEvents } from "../extension";
+
 export default function updateReminder(
   id: string,
   propsToUpdate: Partial<Reminder>
@@ -16,4 +18,6 @@ export default function updateReminder(
     ...currentReminder,
     ...propsToUpdate,
   });
+
+  globalEvents.emit("refresh-tree-data");
 }

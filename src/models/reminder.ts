@@ -8,6 +8,7 @@ export interface IReminder {
   reminderFileLocation: string;
   completed?: boolean;
   createdAt?: Date;
+  wasNotificationShown: boolean;
 }
 
 const reminderValidator = Joi.object({

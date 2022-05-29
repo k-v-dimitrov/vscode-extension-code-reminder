@@ -23,6 +23,10 @@ class ReminderFactory {
     return this;
   }
 
+  withWasNotificationShown(wasNotificationShown: boolean) {
+    this.wasNotificationShown = wasNotificationShown;
+  }
+
   fromJSON(json: string): ReminderFactory {
     const parsedJSON = JSON.parse(json);
     return Object.assign(this, { ...parsedJSON });
@@ -78,6 +82,7 @@ class ReminderFactory {
       reminderLine: this.reminderLine,
       completed: false,
       createdAt: this.createdAt,
+      wasNotificationShown: this.wasNotificationShown,
     });
   }
 }

@@ -2,7 +2,8 @@ import * as vscode from "vscode";
 import * as cron from "node-cron";
 import { RemindersProvider } from "./reminders-provider";
 import updateReminder from "../handlers/update-reminder.handler";
-import Reminder from "models/reminder";
+import Reminder from "../models/reminder";
+import { GoToFileNotification } from "../models/notification";
 
 export interface IRemindersCronJob {
   context: vscode.ExtensionContext;
@@ -29,9 +30,10 @@ export class RemindersCronJob {
   private checkReminders() {
     RemindersProvider.getInstance().reminders.map((reminder) => {
       if (this.shouldFireReminder(reminder)) {
-        showVSCodeInformationMessage(
-          `Reminder: ${reminder.name}`,
-          "Go To File"
+        new GoToFileNotification(
+          `🕖  Reminder  🕖`,
+          `${reminder.name}`,
+          reminder.reminderFileLocation
         );
 
         this.markReminderAsSeen(reminder.id);
@@ -56,8 +58,4 @@ export class RemindersCronJob {
 
     return Date.now() - reminder.date.getTime() >= 0;
   }
-}
-
-function showVSCodeInformationMessage(content: string, okBtnText: string) {
-  vscode.window.showInformationMessage(content, okBtnText);
 }

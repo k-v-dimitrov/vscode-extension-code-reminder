@@ -20,9 +20,14 @@ const reminderValidator = Joi.object({
 
 interface Reminder extends IReminder {}
 class Reminder extends AuditableEntity {
-  constructor(props: Omit<IReminder, "id">) {
+  constructor(props: IReminder) {
     super();
-    this.id = uuid();
+    console.log(props);
+
+    if (props.id === "") {
+      props.id = uuid();
+    }
+
     Object.assign(this, props);
   }
 

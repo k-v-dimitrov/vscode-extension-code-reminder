@@ -71,6 +71,7 @@ class ReminderFactory {
     }
 
     return new Reminder({
+      id: this.id || "",
       name: this.name,
       date: this.date,
       reminderFileLocation: this.reminderFileLocation,

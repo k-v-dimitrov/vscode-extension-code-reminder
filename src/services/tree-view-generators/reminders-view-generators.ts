@@ -1,4 +1,5 @@
-import Reminder from "models/reminder";
+import CONFIG from "../../config/config";
+import Reminder from "../../models/reminder";
 import { ReminderDetailTreeItem } from "../reminders-tree-data-provider";
 
 export class DetailItemGenerator {
@@ -35,12 +36,13 @@ export class DetailItemGenerator {
       return suitableGenerator.generate(detailData);
     }
 
-    return null;
+    if (CONFIG.REMINDER_DEBUG_VALUES) {
+      return new DetailTreeItemGenerator().generate(
+        `${detailType}: ${detailData}`
+      );
+    }
 
-    // DEV PURPOSES ONLY
-    // return new DetailTreeItemGenerator().generate(
-    //   `${detailType}: ${detailData}`
-    // );
+    return null;
   }
 }
 

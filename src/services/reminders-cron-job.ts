@@ -31,7 +31,7 @@ export class RemindersCronJob {
     RemindersProvider.getInstance().reminders.map((reminder) => {
       if (this.shouldFireReminder(reminder)) {
         new GoToFileNotification(
-          `🕖  Reminder  🕖`,
+          `🕖  Reminder:`,
           `${reminder.name}`,
           reminder.reminderFileLocation
         );

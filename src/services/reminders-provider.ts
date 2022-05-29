@@ -38,4 +38,12 @@ export class RemindersProvider {
     const reminderToJSONString = JSON.stringify(reminder);
     this.context.globalState.update(reminder.id, reminderToJSONString);
   }
+
+  deleteReminder(reminder: Reminder) {
+    this.context.globalState.update(reminder.id, undefined);
+  }
+
+  deleteReminderById(id: string) {
+    this.context.globalState.update(id, undefined);
+  }
 }

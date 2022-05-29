@@ -1,18 +1,24 @@
 import * as vscode from "vscode";
 import { EventEmitter } from "stream";
 import { RemindersProvider } from "./services/reminders-provider";
+
 // Handlers
 import getReminders from "./handlers/get-reminders.handler";
 import createReminder from "./handlers/create-reminder.handler";
 import { RemindersTreeDataProvider } from "./services/reminders-tree-data-provider";
 import { RemindersCronJobFactory } from "./factory/reminder-cron-job-factory";
 
+import CONFIG from "./config/config";
+
 export const globalEvents = new EventEmitter();
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('Congratulations, your extension "code-remind" is now active!');
 
-  wipeGlobalState(context); // Wipe global state, dev purpose
+  if (CONFIG.REMINDER_WIPE_GLOBAl_STATE) {
+    wipeGlobalState(context); // Wipe global state, dev purpose
+  }
+
   RemindersProvider.init(context);
   startCronJob(context);
   const remindersTreeDataProvider = new RemindersTreeDataProvider();

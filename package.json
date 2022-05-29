@@ -4,6 +4,10 @@
   "description": "A simple extensions that let's you set in-code reminders.",
   "version": "0.0.3",
   "publisher": "flamingsoul2",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/k-v-dimitrov/vscode-extension-code-reminder.git"
+  },
   "engines": {
     "vscode": "^1.64.0"
   },

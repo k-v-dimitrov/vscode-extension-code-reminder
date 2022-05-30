@@ -3,7 +3,7 @@
   "displayName": "Code Remind",
   "description": "A simple extensions that let's you set in-code reminders.",
   "version": "0.0.6",
-  "icon": "./icon.png",
+  "icon": "icon.png",
   "publisher": "flamingsoul2",
   "repository": {
     "type": "git",

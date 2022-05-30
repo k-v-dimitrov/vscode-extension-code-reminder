@@ -10,6 +10,12 @@ All notable changes to the "code-remind" extension are documented in this file.
 
       // REMINDME: 13.07.2022 14:00 refactor
 
+## [0.0.6] - 29.05.2022
+
+### Fixed
+
+- Better README.md
+
 ## [0.0.5] - 29.05.2022
 
 ### Added

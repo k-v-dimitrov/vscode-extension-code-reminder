@@ -15,7 +15,7 @@ extension will fit your needs and enhance your development experience by remindi
 - **Step 2.** To start using the extension, open any directory or workspace
   containing code.
 
-- **Step 3.** The `Reminder: Put reminder on current line` will appear as a new option under vscode's text editor context menu. **Click on it.**
+- **Step 3.** **Right Click** in any text file and choose `Reminder: Put reminder on current line`.
 
 - **Step 4.** Fill in the custom reminder form.
   <br /><img src="./guide/set-reminder.png">
@@ -23,8 +23,10 @@ extension will fit your needs and enhance your development experience by remindi
 🎉🎉🎉 &nbsp;&nbsp; You are ready to Go :-) &nbsp;&nbsp; 🎉🎉🎉 <br>
 Now you'll be notified when the time comes.
 
-## Upcoming Features
+## Roadmap
 
+- [ ] Fix tree view bug
+- [ ] Delete reminder
 - [ ] Snooze notification for custom provided time
 - [ ] General purpose repeatable reminders, (e.g. reminder for that meeting every Monday morning)
 - [ ] Set reminders with comments e.g.

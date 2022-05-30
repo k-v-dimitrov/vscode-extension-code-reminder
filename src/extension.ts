@@ -9,6 +9,7 @@ import { RemindersTreeDataProvider } from "./services/reminders-tree-data-provid
 import { RemindersCronJobFactory } from "./factory/reminder-cron-job-factory";
 
 import CONFIG from "./config/config";
+import { Logger } from "./utils/Logger";
 
 export const globalEvents = new EventEmitter();
 
@@ -89,6 +90,7 @@ function startCronJob(context: vscode.ExtensionContext) {
  *
  */
 function wipeGlobalState(context: vscode.ExtensionContext) {
+  Logger.log("wiped global state");
   context.globalState.keys().forEach((key) => {
     context.globalState.update(key, undefined);
   });

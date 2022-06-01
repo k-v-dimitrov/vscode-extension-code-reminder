@@ -25,7 +25,7 @@ Now you'll be notified when the time comes.
 
 ## Roadmap
 
-- [ ] Fix tree view bug
+- [x] Fix tree view bug
 - [ ] Delete reminder
 - [ ] Snooze notification for custom provided time
 - [ ] General purpose repeatable reminders, (e.g. reminder for that meeting every Monday morning)

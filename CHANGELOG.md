@@ -6,11 +6,17 @@ All notable changes to the "code-remind" extension are documented in this file.
 
 - Snooze notification for custom provided time
 - General purpose reminders (e.g. reminder for that cool meeting every Monday morning with the PM)
-- [ ] Set reminders with comments e.g.
+- Set reminders with comments e.g.
 
       // REMINDME: 13.07.2022 14:00 refactor
 
-## [0.0.6] - 29.05.2022
+## [0.0.7] - 1.05.2022
+
+### Fixed
+
+- Reminder tree view bug
+
+## [0.0.6] - 29.06.2022
 
 ### Fixed
 

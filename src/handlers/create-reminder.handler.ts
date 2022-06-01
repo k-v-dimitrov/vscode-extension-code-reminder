@@ -69,7 +69,9 @@ function buildReminder(
     .withReminderDate(new Date(payload.date))
     .withFileLocation(filename)
     .withLineNumber(reminderLine)
+    .withWasNotificationShown(false)
     .create();
+
   return reminder;
 }
 

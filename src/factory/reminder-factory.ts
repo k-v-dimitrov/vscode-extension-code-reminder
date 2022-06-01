@@ -25,6 +25,7 @@ class ReminderFactory {
 
   withWasNotificationShown(wasNotificationShown: boolean) {
     this.wasNotificationShown = wasNotificationShown;
+    return this;
   }
 
   fromJSON(json: string): ReminderFactory {

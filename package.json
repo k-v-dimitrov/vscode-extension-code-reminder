@@ -63,7 +63,8 @@
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
-    "clean": "rimraf dist && rimraf node_modules"
+    "clean": "rimraf dist && rimraf node_modules",
+    "develop": "code --extensionDevelopmentPath=${PWD} && webpack --watch"
   },
   "devDependencies": {
     "@types/glob": "^7.2.0",
